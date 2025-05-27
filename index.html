@@ -59,6 +59,9 @@
         .then(buffer => {
           gba.loadRomFromFile(new File([buffer], "pokemon.gba"), (success) => {
             if (success) {
+            console.log(window.innerWidth);  // Largura da janela
+            console.log(window.innerHeight); // Altura da janela
+
               gba.runStable();
               canvas.requestFullscreen?.();
             } else {
