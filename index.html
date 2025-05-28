@@ -99,28 +99,22 @@
 
 
   <script>
-  window.addEventListener('message', function(event) {
-      let hora = event.data.hora;
+  window.addEventListener('message', (event) => {
+      const dados = event.data;
 
-      // Converte para número se for string
-      hora = parseInt(hora);
-
-      console.log("Hora recebida:", hora);
-
-      if (!isNaN(hora)) {
+      if (dados.tipo === 'hora') {
+          const hora = dados.valor;
           const bg = document.getElementById('bg');
+
           if (hora >= 6 && hora < 12) {
-              // Manhã
               bg.src = 'resources/background.png';
           } else if (hora >= 12 && hora < 18) {
-              // Tarde
               bg.src = 'resources/backgroundTarde.png';
           } else {
-              // Noite
               bg.src = 'resources/backgroundNoite.png';
           }
-      } else {
-          console.warn("Hora inválida recebida:", event.data.hora);
+
+          console.log('Cenário alterado com base na hora simulada:', hora);
       }
   });
 </script>
