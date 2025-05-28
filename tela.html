@@ -96,5 +96,30 @@
     <img src="resources/background.png" id="bg" alt="Background" />
     <canvas id="screen" width="480" height="320"></canvas>
   </div>
+
+
+  <script>
+  window.addEventListener('message', (event) => {
+      const dados = event.data;
+
+      if (dados.tipo === 'hora') {
+          const hora = dados.valor;
+          const bg = document.getElementById('bg');
+
+          if (hora >= 6 && hora < 12) {
+              bg.src = 'resources/background.png';
+          } else if (hora >= 12 && hora < 18) {
+              bg.src = 'resources/backgroundTarde.png';
+          } else {
+              bg.src = 'resources/backgroundNoite.png';
+          }
+
+          console.log('Cenário alterado com base na hora simulada:', hora);
+      }
+  });
+</script>
+
+
+
 </body>
 </html>
