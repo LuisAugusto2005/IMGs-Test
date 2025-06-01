@@ -39,6 +39,25 @@
     }
   </style>
 
+  <style>
+    #botao-musica {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 2;
+      padding: 10px 15px;
+      background-color: rgba(255, 255, 255, 0.7);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #botao-musica:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+  </style>
+
   <!-- Scripts do GBA.js2 -->
   <script src="js/util.js"></script>
   <script src="js/core.js"></script>
@@ -102,13 +121,38 @@
     }
   </script>
 </head>
+<!-- Dentro do corpo do HTML -->
 <body>
   <div id="emulador-container">
     <img src="resources/background.png" id="bg" alt="Background" />
     <canvas id="screen" width="480" height="320"></canvas>
+
+    <!-- Botão para controlar a música -->
+    <button id="botao-musica">🔊 Pausar Música</button>
   </div>
 
+  <audio id="musica" loop></audio>
+
   <script>
+    const musica = document.getElementById('musica');
+    const botaoMusica = document.getElementById('botao-musica');
+    let tocando = true;
+
+    // Controle do botão
+    botaoMusica.addEventListener('click', () => {
+      if (tocando) {
+        musica.pause();
+        botaoMusica.textContent = '🔈 Tocar Música';
+      } else {
+        musica.play().catch(err => {
+          console.error('Erro ao tocar a música:', err);
+        });
+        botaoMusica.textContent = '🔊 Pausar Música';
+      }
+      tocando = !tocando;
+    });
+
+    // Muda cenário e música conforme horário recebido
     window.addEventListener('message', (event) => {
       const dados = event.data;
 
@@ -116,17 +160,34 @@
         const hora = dados.valor;
         const bg = document.getElementById('bg');
 
+        let novaMusica = '';
+
         if (hora >= 6 && hora < 12) {
           bg.src = 'resources/background.png';
+          novaMusica = 'resources/Tears Of The Star.mp3';
         } else if (hora >= 12 && hora < 18) {
           bg.src = 'resources/backgroundTarde.png';
+          novaMusica = 'resources/Wave.mp3';
         } else {
           bg.src = 'resources/backgroundNoite.png';
+          novaMusica = 'resources/Nightcall.mp3';
         }
 
-        console.log('Cenário alterado com base na hora simulada:', hora);
+        // Troca a música apenas se for diferente
+        if (!musica.src.includes(novaMusica)) {
+          musica.src = novaMusica;
+          musica.play().then(() => {
+            tocando = true;
+            botaoMusica.textContent = '🔊 Pausar Música';
+          }).catch(err => {
+            console.error('Erro ao tocar a música:', err);
+          });
+        }
+
+        console.log('Cenário e música alterados com base na hora simulada:', hora);
       }
     });
   </script>
 </body>
+
 </html>
