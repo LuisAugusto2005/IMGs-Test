@@ -144,13 +144,15 @@
         musica.pause();
         botaoMusica.textContent = '🔈 Tocar Música';
       } else {
-        musica.play().catch(err => {
+        musica.play().then(() => {
+          botaoMusica.textContent = '🔊 Pausar Música';
+          tocando = true;
+        }).catch(err => {
           console.error('Erro ao tocar a música:', err);
         });
-        botaoMusica.textContent = '🔊 Pausar Música';
       }
-      tocando = !tocando;
     });
+
 
     // Muda cenário e música conforme horário recebido
     window.addEventListener('message', (event) => {
@@ -173,20 +175,17 @@
           novaMusica = 'resources/Nightcall.mp3';
         }
 
-        // Troca a música apenas se for diferente
+        // Só troca a música, mas não toca automaticamente
         if (!musica.src.includes(novaMusica)) {
           musica.src = novaMusica;
-          musica.play().then(() => {
-            tocando = true;
-            botaoMusica.textContent = '🔊 Pausar Música';
-          }).catch(err => {
-            console.error('Erro ao tocar a música:', err);
-          });
+          tocando = false;
+          botaoMusica.textContent = '🔈 Tocar Música';
         }
 
         console.log('Cenário e música alterados com base na hora simulada:', hora);
       }
     });
+
   </script>
 </body>
 
