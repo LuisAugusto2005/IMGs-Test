@@ -46,7 +46,7 @@
       right: 10px;
       z-index: 2;
       padding: 10px 15px;
-      background-color: rgba(255, 255, 255, 0.7);
+      background-color: rgba(58, 58, 58, 0.7);
       border: none;
       border-radius: 5px;
       cursor: pointer;
@@ -54,7 +54,7 @@
     }
 
     #botao-musica:hover {
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(58, 58, 58, 0.9);
     }
   </style>
 
@@ -128,7 +128,7 @@
     <canvas id="screen" width="480" height="320"></canvas>
 
     <!-- Botão para controlar a música -->
-    <button id="botao-musica">🔊 Pausar Música</button>
+    <button id="botao-musica">Ligar Rádio</button>
   </div>
 
   <audio id="musica" loop></audio>
@@ -142,10 +142,10 @@
     botaoMusica.addEventListener('click', () => {
       if (tocando) {
         musica.pause();
-        botaoMusica.textContent = '🔈 Tocar Música';
+        botaoMusica.textContent = 'Ligar Rádio';
       } else {
         musica.play().then(() => {
-          botaoMusica.textContent = '🔊 Pausar Música';
+          botaoMusica.textContent = 'Desligar Rádio';
           tocando = true;
         }).catch(err => {
           console.error('Erro ao tocar a música:', err);
@@ -179,7 +179,7 @@
         if (!musica.src.includes(novaMusica)) {
           musica.src = novaMusica;
           tocando = false;
-          botaoMusica.textContent = '🔈 Tocar Música';
+          botaoMusica.textContent = 'Ligar Rádio';
         }
 
         console.log('Cenário e música alterados com base na hora simulada:', hora);
